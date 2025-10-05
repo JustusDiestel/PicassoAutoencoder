@@ -36,6 +36,7 @@ def main():
     criterion = nn.MSELoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
+
     for epoch in range(10):
         for images, _ in train_loader:
             outputs = model(images)
@@ -44,20 +45,17 @@ def main():
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
+            last_images = images
+            last_outputs = outputs
             print(f"Epoch: {epoch}, Loss: {loss.item():.4f}")
 
-            if epoch % 10 == 9:
-                plt.figure(figsize=(4, 2))
-                plt.subplot(1, 2, 1)
-                plt.title("Original")
-                plt.imshow(images[0].detach().squeeze(), cmap='gray')
-                plt.axis('off')
-
-                plt.subplot(1, 2, 2)
-                plt.title("Rekonstruktion")
-                plt.imshow(outputs[0].detach().squeeze(), cmap='gray')
-                plt.axis('off')
-
-                plt.show()
+        for i in range(10):
+            plt.subplot(2, 10, i + 1)
+            plt.imshow(images[i].squeeze(), cmap='gray')
+            plt.axis('off')
+            plt.subplot(2, 10, i + 11)
+            plt.imshow(outputs[i].detach().squeeze(), cmap='gray')
+            plt.axis('off')
+        plt.show()
 if __name__ == '__main__':
     main()
