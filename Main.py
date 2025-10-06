@@ -13,24 +13,9 @@ def get_dataloaders():
     test_loader = DataLoader(data, batch_size=64, shuffle=False)
     return train_loader, test_loader
 
-def show_batch(train_loader):
-    images, labels = next(iter(train_loader))
-    print(images.shape)
-    print(labels.shape)
-    plt.figure(figsize=(12, 2))
-    for i in range(12):
-        plt.subplot(1, 12, i + 1)
-        plt.imshow(images[i].squeeze(), cmap='gray')
-    plt.show()
-
-
-
-
-
-
 def main():
     train_loader, test_loader = get_dataloaders()
-    show_batch(train_loader)
+
 
     model = AE.Autoencoder()
     criterion = nn.MSELoss()
